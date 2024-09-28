@@ -1,18 +1,19 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -g
-SRC = main.c  # will add files here
-OBJ = $(SRC:.c=.o)
-EXEC = main
+CFLAGS = -Wall -Wextra -g -Iinclude
+SRC = src/main.c  # will add more files
+OBJ = $(SRC:src/%.c=bin/%.o)
+EXEC = build/main
 
 all: $(EXEC)
 
 $(EXEC): $(OBJ)
 	$(CC) $(OBJ) -o $(EXEC)
 
-%.o: %.c
+bin/%.o: src/%.c
+	@mkdir -p bin
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(EXEC)
+	rm -rf bin/* build/*
 
 .PHONY: all clean
